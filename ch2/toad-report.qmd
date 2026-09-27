@@ -10,11 +10,12 @@ library(dplyr)
 library(ggplot2)
 library(readr)
 library(fs)
-lapply(dir_ls("R", glob = "*.R"), source)
+library(here)
+lapply(dir_ls(here("ch2/R"), glob = "*.R"), source)
 knitr::opts_chunk$set(echo = FALSE, message = FALSE)
 
-front <- read_csv("output/toad-front.csv")
-summary_stats <- read_csv("output/toad-summary.csv")
+front <- read_csv(here("output/toad-front.csv"))
+summary_stats <- read_csv(here("output/toad-summary.csv"))
 ```
 
 Cane toads were released near Gordonvale in 1935. This is where they had got to

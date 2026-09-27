@@ -20,6 +20,7 @@
 #' @return A tibble, one row per decade, with the `lon` and `lat` of the edge.
 front_by_decade <- function(occurrences, north_of = -20, n_front = 10) {
   occurrences |>
+    filter(!is.na(lon), !is.na(lat), !is.na(decade)) |>
     filter(lat > north_of) |>
     group_by(decade) |>
     slice_min(lon, n = n_front) |>

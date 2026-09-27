@@ -12,19 +12,20 @@
 #   cane-toad-wildnet.parquet
 #   cane-toad-all.parquet
 
-toad_path <- "data/cane-toad-wildnet-to-1999.parquet"
-
 library(arrow)
 library(dplyr)
 library(fs)
 library(geodist)
+library(here)
 library(janitor)
 library(lubridate)
 library(readr)
 
-lapply(dir_ls("R", glob = "*.R"), source)
+toad_path <- here("data/cane-toad-wildnet-to-1999.parquet")
 
-dir_create("output")
+lapply(dir_ls(here("ch2/R"), glob = "*.R"), source)
+
+dir_create(here("output"))
 
 occurrences_raw <- read_occurrences(toad_path)
 
@@ -41,5 +42,5 @@ toad_summary <- tibble(
   km_per_year = front_speed(front_distance)
 )
 
-write_csv(front_distance, "output/toad-front.csv")
-write_csv(toad_summary, "output/toad-summary.csv")
+write_csv(front_distance, here("output/toad-front.csv"))
+write_csv(toad_summary, here("output/toad-summary.csv"))

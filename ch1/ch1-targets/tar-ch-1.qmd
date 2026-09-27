@@ -1,0 +1,103 @@
+---
+title: "Example analysis"
+format: html
+---
+
+```{r}
+source(here::here("ch1/ch1-targets/packages.R"))
+source(here::here("ch1/ch1-targets/functions.R"))
+Sys.setenv(TAR_PROJECT = "ch1")
+```
+
+```{r}
+tar_load(
+  c(
+    toads,
+    qld,
+    toad_west_front,
+    toad_speed
+  )
+)
+```
+
+```{r}
+glimpse(toads)
+vis_dat(toads)
+```
+
+
+```{r}
+# What years does this cover?
+range(toads$year)
+toads |>
+  count(year)
+
+toads |>
+  count(decade)
+```
+
+
+```{r}
+ggplot(toads, aes(x = decade)) +
+  geom_bar()
+```
+
+
+```{r}
+
+gg_oz <- ggplot() + geom_sf(data = ozmap_states)
+
+gg_oz
+
+gg_oz_pts <- gg_oz +
+  geom_point(data = toads, aes(x = lon, y = lat)) 
+
+gg_oz_pts
+```
+
+
+```{r}
+gg_qld <- ggplot() + geom_sf(data = qld) 
+
+gg_qld
+
+
+gg_qld + geom_point(data = toads, aes(x = lon, y = lat), alpha = 0.2)
+```
+
+
+```{r}
+# One panel per decade
+gg_qld_pts_decade <- gg_qld +
+  geom_point(data = toads, aes(x = lon, y = lat), alpha = 0.2) +
+  facet_wrap(~decade, nrow = 2) 
+
+gg_qld_pts_decade
+```
+
+```{r}
+plot_pts_west_front <- gg_qld +
+    geom_point(
+      data = toads,
+      aes(x = lon, y = lat),
+      alpha = 0.2
+    ) +
+    geom_point(
+      data = toad_west_front,
+      aes(x = lon, y = lat),
+      colour = "orange"
+    ) +
+    geom_path(
+      data = toad_west_front,
+      aes(x = lon, y = lat),
+      colour = "orange"
+    ) 
+
+plot_pts_west_front
+```
+
+
+```{r}
+ggplot(toad_speed, aes(x = decade, y = distance_km)) + geom_col() 
+```
+

@@ -14,6 +14,12 @@
 #'
 #' @return `front`, with `km_moved` and `km_per_year` added.
 front_distances <- function(front) {
+  # A front with nothing in it has no steps to measure. geodist() segfaults on a
+  # zero-row matrix rather than erroring, so it never gets one.
+  if (nrow(front) < 2) {
+    return(mutate(front, km_moved = NA_real_, km_per_year = NA_real_))
+  }
+
   front |>
     mutate(
       km_moved = c(

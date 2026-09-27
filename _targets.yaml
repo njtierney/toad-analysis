@@ -1,0 +1,3 @@
+ch1:
+  script: ch1/ch1-targets/_targets.R
+  store: ch1/ch1-targets/_targets
