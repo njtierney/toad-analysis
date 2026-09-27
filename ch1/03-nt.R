@@ -5,12 +5,12 @@
 # ---- read ----
 # data read in
 library(here)
-toad_path <- here("data/cane-toad-wildnet-to-1999.parquet")
+toad_path <- here("data/cane-toad-fauna-atlas-nt.parquet")
 
 library(arrow)
 toads_raw <- read_parquet(file = toad_path)
 
-head(toads_raw)
+toads_raw
 
 # ---- view ----
 View(toads_raw)
@@ -40,7 +40,7 @@ toads <- toads_raw |>
     .after = date
   )
 
-head(toads)
+toads
 
 # ---- look ----
 # EDA
@@ -68,7 +68,7 @@ ggplot(toads, aes(x = decade)) +
 # Maps
 ggplot(toads, aes(x = lon, y = lat)) +
   geom_point()
-# Looks a bit like queensland?
+# Looks a bit like NT??
 
 library(ozmaps)
 library(sf)
@@ -84,18 +84,21 @@ ozmap_states
 
 # ---- map-qld ----
 # Let's just look at qld
-qld <- ozmap_states |>
-  filter(NAME == "Queensland")
+top_end <- ozmap_states |>
+  filter(NAME %in% c("Queensland", "Northern Territory"))
 
-gg_qld <- ggplot() + geom_sf(data = qld)
-gg_qld
+gg_top_end <- ggplot() + geom_sf(data = top_end)
+gg_top_end
 
-gg_qld + geom_point(data = toads, aes(x = lon, y = lat), alpha = 0.2)
+gg_top_end + geom_point(data = toads, aes(x = lon, y = lat), alpha = 0.2)
 
 # One panel per decade
-gg_qld +
+gg_top_end +
   geom_point(data = toads, aes(x = lon, y = lat), alpha = 0.2) +
   facet_wrap(~decade, nrow = 2)
+
+## Can we combine this with qld data?
+## What do we do with missing data
 
 # ---- front ----
 # Find the most western toads per decade
