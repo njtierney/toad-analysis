@@ -5,7 +5,7 @@ source(here::here("ch1/ch1-targets/packages.R"))
 source(here::here("ch1/ch1-targets/functions.R"))
 
 tar_assign({
-  toad_path <- here("data/cane-toad-wildnet-to-1999.parquet") |> tar_file()
+  toad_path <- here("data/cane-toad-wildnet-to-2010.parquet") |> tar_file()
 
   toads_raw <- read_parquet(file = toad_path) |> tar_target()
 
@@ -25,7 +25,7 @@ tar_assign({
     ungroup() |>
     tar_target()
 
-  toad_speed <- toad_west_front |>
+  toad_distance <- toad_west_front |>
     add_distance(lon = "lon", lat = "lat") |>
     tar_target()
 

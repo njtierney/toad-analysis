@@ -15,7 +15,7 @@ tar_load(
     toads,
     qld,
     toad_west_front,
-    toad_speed
+    toad_distance
   )
 )
 ```
@@ -98,6 +98,6 @@ plot_pts_west_front
 
 
 ```{r}
-ggplot(toad_speed, aes(x = decade, y = distance_km)) + geom_col() 
+ggplot(toad_distance, aes(x = decade, y = distance_km)) + geom_col() 
 ```
 

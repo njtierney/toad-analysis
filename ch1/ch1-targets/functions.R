@@ -9,7 +9,6 @@ tidy_toads <- function(toads_raw) {
       resource_name = data_resource_name
     ) |>
     mutate(
-      year = year(date),
       decade = floor(year / 10) * 10,
       .after = date
     )
@@ -24,7 +23,7 @@ add_distance <- function(data, lon, lat) {
   # earth, in metres. `sequential = TRUE` is what makes it row-to-row rather than
   # every-pair. There is no step into the first decade, so we pad it out:
   distances_m <- dist_mat |>
-    geodist(measure = "geodesic", sequential = TRUE, pad = TRUE)
+    geodist(measure = "cheap", sequential = TRUE, pad = TRUE)
 
   data |>
     mutate(
